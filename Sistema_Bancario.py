@@ -35,7 +35,7 @@ parte 3:
         criar métodos para cada funcionalidade        
 '''
 
-from classes import *
+from app.models import *
 
 usuarios = []
 

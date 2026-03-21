@@ -1,5 +1,19 @@
-<<<<<<< HEAD
+# Python
 __pycache__/
-=======
-__pycache__/
->>>>>>> 770b0dc598f2e2c563fcfd27c54821ea20770786
+*.py[cod]
+*$py.class
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# Banco de Dados (SQLite)
+*.db
+*.sqlite
+*.sqlite3
+
+# Ambiente e Logs
+.env
+*.log
+
+# VS Code
+.vscode/

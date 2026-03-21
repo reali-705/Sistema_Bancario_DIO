@@ -1,0 +1,41 @@
+[project]
+name = "sistema-bancario-dio"
+version = "0.1.0"
+description = "Sistema bancário em FastAPI para fins educacionais, desenvolvido como parte do curso de Python da DIO."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.135.1",
+    "sqlalchemy>=2.0.48",
+    "uvicorn[standard]>=0.42.0",
+]
+
+[dependency-groups]
+dev = ["httpx>=0.28.1", "pytest>=9.0.2", "ruff>=0.15.7"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E",   # All errors
+    "F",   # All pyflakes checks
+    "I",   # All isort checks
+    "W",   # All warnings
+    "N",   # All pep8-naming checks
+    "C90", # Complexity checks
+    "B",   # All flake8-bugbear checks
+]
+fixable = ["ALL"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+addopts = "-v --showlocals --tb=short"
