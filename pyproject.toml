@@ -5,7 +5,9 @@ description = "Sistema bancário em FastAPI para fins educacionais, desenvolvido
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "aiosqlite>=0.22.1",
     "fastapi>=0.135.1",
+    "pydantic-settings>=2.13.1",
     "sqlalchemy>=2.0.48",
     "uvicorn[standard]>=0.42.0",
 ]
@@ -26,8 +28,17 @@ select = [
     "N",   # All pep8-naming checks
     "C90", # Complexity checks
     "B",   # All flake8-bugbear checks
+    "D",   # All docstring checks
 ]
 fixable = ["ALL"]
+ignore = [
+    "D107",  # Missing docstring in __init__
+    "D203",  # 1 blank line required before class docstring
+    "D212",  # Multi-line docstring summary should start at the first line
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
 
 [tool.ruff.format]
 quote-style = "double"
