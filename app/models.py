@@ -7,13 +7,22 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
 
 class Base(DeclarativeBase):
-    """Classe base para as entidades do banco de dados."""
+    """Fornece a estrutura fundamental para as tabelas do banco de dados.
+
+    Todas as classes de modelo herdam desta base, garantindo consistência
+    e integração perfeita com o SQLAlchemy. O campo 'id' é definido aqui para
+    evitar repetição em cada modelo, seguindo a convenção de chave primária.
+    """
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
 
 
 class Usuario(Base):
-    """Entidade que representa um usuário do sistema bancário."""
+    """Mapeia a tabela física 'usuarios' e suas regras de negócio.
+
+    Implementa Soft Delete através do campo 'ativo', garantindo a preservação
+    do histórico de transações para fins de auditoria financeira.
+    """
 
     __tablename__ = "usuarios"
 
@@ -28,7 +37,12 @@ class Usuario(Base):
 
 
 class Conta(Base):
-    """Entidade que representa uma conta bancária."""
+    """Mapeia as contas bancárias atreladas aos usuários.
+
+    Possui restrição de chave estrangeira com a tabela 'usuarios'. O atributo
+    cascade garante que, em caso de hard delete (excepcional), as contas e
+    transações dependentes sejam eliminadas para evitar dados órfãos.
+    """
 
     __tablename__ = "contas"
 
@@ -44,7 +58,12 @@ class Conta(Base):
 
 
 class Transacao(Base):
-    """Entidade que representa uma transação bancária."""
+    """Mapeia as transações bancárias realizadas nas contas.
+
+    Possui restrição de chave estrangeira com a tabela 'contas'. O atributo
+    cascade garante que, em caso de hard delete (excepcional), as transações
+    dependentes sejam eliminadas para evitar dados órfãos.
+    """
 
     __tablename__ = "transacoes"
 
