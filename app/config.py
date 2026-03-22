@@ -13,6 +13,9 @@ class Settings(BaseSettings):
     """
 
     DATABASE_URL: str = Field(default="sqlite+aiosqlite:///./database.db")
+    ALGORITHM: str = Field(default="HS256")
+    TOKEN_EXPIRE_MINUTES: int = Field(default=30)
+    SECRET_KEY: str = Field(default=...)
 
     model_config = SettingsConfigDict(
         env_file=".env", extra="ignore", env_file_encoding="utf-8"
