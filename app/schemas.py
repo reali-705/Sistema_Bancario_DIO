@@ -3,6 +3,21 @@
 from pydantic import BaseModel, ConfigDict, EmailStr
 
 
+class JWToken(BaseModel):
+    """Esquema para o token de acesso JWT."""
+
+    access_token: str
+    token_type: str
+
+
+class DadosToken(BaseModel):
+    """Esquema de dados (payload) para criação do token JWT."""
+
+    sub: int
+    email: EmailStr
+    nome: str
+
+
 class UsuarioBase(BaseModel):
     """Esquema base para operações de usuário, compartilhando campos comuns."""
 
