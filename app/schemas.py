@@ -1,6 +1,9 @@
 """Módulo de Esquemas de Dados para Validação e Serialização."""
 
-from pydantic import BaseModel, ConfigDict, EmailStr
+from pydantic import BaseModel, ConfigDict, Field
+
+# Validação de email usando expressão regular (regex).
+REGEX_EMAIL = r"^[\w\.-]+@[\w\.-]+\.\w+$"
 
 
 class JWToken(BaseModel):
@@ -14,7 +17,7 @@ class DadosToken(BaseModel):
     """Esquema de dados (payload) para criação do token JWT."""
 
     sub: int
-    email: EmailStr
+    email: str = Field(pattern=REGEX_EMAIL)
     nome: str
 
 
@@ -22,7 +25,7 @@ class UsuarioBase(BaseModel):
     """Esquema base para operações de usuário, compartilhando campos comuns."""
 
     nome: str
-    email: EmailStr
+    email: str = Field(pattern=REGEX_EMAIL)
 
 
 class UsuarioCreate(UsuarioBase):
