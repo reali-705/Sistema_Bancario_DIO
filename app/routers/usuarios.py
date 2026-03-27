@@ -5,10 +5,10 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.database import get_db
+from app.core.database import get_db
+from app.core.security import gerar_senha_hash
 from app.models import Usuario
 from app.schemas import UsuarioCreate, UsuarioResponse
-from app.security import gerar_senha_hash
 
 router_v1 = APIRouter(
     tags=["Usuários"],

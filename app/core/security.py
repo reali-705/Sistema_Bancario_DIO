@@ -5,7 +5,7 @@ from datetime import datetime, timedelta, timezone
 import bcrypt
 import jwt
 
-from app.config import settings
+from app.core.config import settings
 from app.schemas import DadosToken
 
 
