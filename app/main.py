@@ -5,9 +5,9 @@ from typing import AsyncGenerator
 
 from fastapi import FastAPI
 
+from app.api import api_router
 from app.core.database import init_db
 from app.core.exceptions import carregar_excecoes_personalizadas
-from app.routers.usuarios import router_v1 as usuarios_router_v1
 
 
 @asynccontextmanager
@@ -28,4 +28,5 @@ app = FastAPI(
 
 carregar_excecoes_personalizadas(app)
 
-app.include_router(router=usuarios_router_v1, prefix="/api/v1")
+
+app.include_router(api_router)
