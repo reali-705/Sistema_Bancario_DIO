@@ -8,12 +8,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import get_db
 from app.core.security import gerar_senha_hash
 from app.models import Usuario
+from app.schemas.docs import RESPOSTA_404, RESPOSTA_409, RESPOSTA_500
 from app.schemas.usuarios import UsuarioCreate, UsuarioResponse
 
 router_v1 = APIRouter(
     tags=["Usuários"],
     prefix="/usuarios",
-    responses={status.HTTP_404_NOT_FOUND: {"detail": "Nao encontrado"}},
+    responses={**RESPOSTA_404, **RESPOSTA_500},
 )
 
 
@@ -21,9 +22,7 @@ router_v1 = APIRouter(
     path="",
     response_model=UsuarioResponse,
     status_code=status.HTTP_201_CREATED,
-    responses={
-        status.HTTP_409_CONFLICT: {"detail": "Email já cadastrado"},
-    }
+    responses={**RESPOSTA_409},
 )
 async def criar_usuario(
     usuario: UsuarioCreate, db: Annotated[AsyncSession, Depends(get_db)]
