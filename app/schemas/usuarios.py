@@ -1,9 +1,10 @@
 """Módulo de Esquemas de Dados para Validação e Serialização."""
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field
 
 # Validação de email usando expressão regular (regex).
 REGEX_EMAIL = r"^[\w\.-]+@[\w\.-]+\.\w+$"
+REGEX_SENHA = r"^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+\[\]{}|;:,.<>?]).{6,}$"
 
 
 class UsuarioBase(BaseModel):
@@ -16,21 +17,7 @@ class UsuarioBase(BaseModel):
 class UsuarioCreate(UsuarioBase):
     """Esquema para criação de usuário, incluindo campos obrigatórios."""
 
-    senha: str = Field(examples=["senha_123"])
-
-    @field_validator("senha")
-    @classmethod
-    def validar_senha(cls, senha: str) -> str:
-        """Valida a senha para garantir que atenda aos critérios de segurança."""
-        if len(senha) < 6:
-            raise ValueError("A senha deve conter pelo menos 6 caracteres.")
-        elif not any(char.isdigit() for char in senha):
-            raise ValueError("A senha deve conter pelo menos um número.")
-        elif not any(char.isalpha() for char in senha):
-            raise ValueError("A senha deve conter pelo menos uma letra.")
-        elif not any(char in "!@#$%^&*()-_=+[]{}|;:,.<>?/" for char in senha):
-            raise ValueError("A senha deve conter pelo menos um caractere especial.")
-        return senha
+    senha: str = Field(pattern=REGEX_SENHA, examples=["senha_123"])
 
 
 class UsuarioResponse(UsuarioBase):
