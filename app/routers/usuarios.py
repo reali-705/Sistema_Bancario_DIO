@@ -3,6 +3,7 @@
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, status
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
@@ -30,7 +31,36 @@ async def criar_usuario(
         senha=gerar_senha_hash(usuario.senha),
     )
     db.add(novo_usuario)
-
     await db.commit()
     await db.refresh(novo_usuario)
     return UsuarioResponse.model_validate(novo_usuario)
+
+
+@router.get(
+    path="",
+    response_model=list[UsuarioResponse],
+    status_code=status.HTTP_200_OK,
+)
+async def listar_usuarios(
+    db: Annotated[AsyncSession, Depends(get_db)],
+    nome: str | None = None,
+    email: str | None = None,
+    ativo: bool | None = None,
+) -> list[UsuarioResponse]:
+    """Rota para listar todos os usuários.
+
+    Possui filtro dinamicos/opicionais para nome, email e ativo.
+    """
+    query = select(Usuario)
+
+    # Contrutor de filtros
+    if nome:
+        query = query.where(Usuario.nome.ilike(f"%{nome}%"))
+    if email:
+        query = query.where(Usuario.email.ilike(f"%{email}%"))
+    if ativo is not None:
+        query = query.where(Usuario.ativo == ativo)
+
+    result = await db.execute(query)
+    usuarios = result.scalars().all()
+    return list(map(UsuarioResponse.model_validate, usuarios))
