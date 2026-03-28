@@ -8,7 +8,7 @@ from app.schemas.docs import RESPOSTA_404, RESPOSTA_500
 api_router = APIRouter(prefix="/api", responses={**RESPOSTA_404, **RESPOSTA_500})
 
 
-v1_router = APIRouter(prefix="/v1", tags=["Versão 1"])
+v1_router = APIRouter(prefix="/v1")
 
 v1_router.include_router(usuarios.router, prefix="/usuarios", tags=["Usuários"])
 
