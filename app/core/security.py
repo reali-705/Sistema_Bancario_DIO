@@ -6,7 +6,7 @@ import bcrypt
 import jwt
 
 from app.core.config import settings
-from app.schemas.usuarios import DadosToken
+from app.schemas.tokens import DadosToken
 
 
 def gerar_senha_hash(senha: str) -> str:
